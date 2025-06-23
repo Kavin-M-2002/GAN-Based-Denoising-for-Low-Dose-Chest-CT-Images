@@ -3,24 +3,6 @@
 
 GAN-Based Architecture for Enhancing Low-Dose CT Imaging Quality
 
-📁 Project Structure
-
-INTERNSHIP PROJECT/
-├── venv/                     # Virtual environment
-├── Data/                     # Dataset: train/valid/test (4 classes)
-├── models/                   # Trained model weights (generator.pth)
-├── outputs/
-│   ├── loss_curve.png        # Loss trend plot
-│   ├── predicted_images/     # Denoised results from test set
-│   └── visual_results/       # Visualization with PSNR/SSIM
-├── src/
-│   ├── dataset.py            # Custom PyTorch dataset loader
-│   ├── model.py              # Generator & Discriminator architecture
-│   ├── train.py              # Training loop
-│   ├── test.py               # Image denoising inference
-│   └── evaluate.py           # PSNR/SSIM calculation
-├── visualization_results.py # Visualization of results
-└── README.md                 # Project documentation
 
 📦 Installation & Setup
 
