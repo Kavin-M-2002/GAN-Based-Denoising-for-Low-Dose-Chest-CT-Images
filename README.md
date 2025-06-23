@@ -8,6 +8,7 @@ GAN-Based Architecture for Enhancing Low-Dose CT Imaging Quality
 
 # Clone the repo or copy project files
 mkdir "INTERNSHIP PROJECT"
+
 cd "INTERNSHIP PROJECT"
 
 # Create virtual environment (Windows)
