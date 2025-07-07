@@ -57,11 +57,11 @@ if uploaded_file:
 
     # Display images
     with col1:
-        st.image(noisy_img, caption="Noisy Input", use_column_width=True)
+        st.image(noisy_img, caption="Noisy Input", use_container_width=True)
     with col2:
-        st.image(denoised_img, caption="Denoised Output", use_column_width=True)
+        st.image(denoised_img, caption="Denoised Output", use_container_width=True)
     with col3:
-        st.image(clean_img, caption="Clean Ground Truth", use_column_width=True)
+        st.image(clean_img, caption="Clean Ground Truth", use_container_width=True)
 
     # Show metrics
     st.markdown(f"📊 **PSNR:** {psnr:.2f} dB &nbsp;&nbsp;&nbsp; **SSIM:** {ssim:.4f}")
