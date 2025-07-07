@@ -1,22 +1,42 @@
-import torch, numpy as np
+# utils.py
+
+import torch
+import torchvision.transforms as transforms
 from PIL import Image
-import math
+import numpy as np
+import io
+import lpips
 from skimage.metrics import structural_similarity as ssim
+import math
 
-def tensor_to_image(t):
-    arr = (t.squeeze().cpu().numpy()*255).astype(np.uint8)
-    return Image.fromarray(arr)
+def load_image(uploaded_file, img_size):
+    image = Image.open(uploaded_file).convert("L")
+    transform = transforms.Compose([
+        transforms.Resize((img_size, img_size)),
+        transforms.ToTensor()
+    ])
+    image_tensor = transform(image).unsqueeze(0)
+    return image_tensor
 
-def compute_psnr_ssim(gt, pred):
-    gt, pred = gt.squeeze().cpu().numpy(), pred.squeeze().cpu().numpy()
-    mse = np.mean((gt-pred)**2)
-    psnr = 20 * math.log10(1.0/math.sqrt(mse+1e-8))
-    s = ssim(gt, pred, data_range=1.0)
-    return psnr, s
+def tensor_to_image(tensor):
+    image = tensor.squeeze(0).detach().cpu().numpy()
+    image = (image * 255).astype(np.uint8)
+    return Image.fromarray(image[0])
 
-def save_comparison(no, out, cl, path):
-    img_no, img_out, img_cl = tensor_to_image(no), tensor_to_image(out), tensor_to_image(cl)
-    w, h = img_no.width, img_no.height
-    comp = Image.new('L', (w*3, h))
-    comp.paste(img_no, (0,0)); comp.paste(img_out,(w,0)); comp.paste(img_cl,(2*w,0))
-    comp.save(path)
+def add_gaussian_noise(tensor, mean=0.0, std=0.1):
+    noisy = tensor + torch.randn_like(tensor) * std
+    return torch.clamp(noisy, 0., 1.)
+
+def compute_metrics(output, target):
+    output_np = output.squeeze().detach().cpu().numpy()
+    target_np = target.squeeze().detach().cpu().numpy()
+
+    psnr_val = compute_psnr(output_np, target_np)
+    ssim_val = ssim(target_np, output_np, data_range=1.0)
+    return psnr_val, ssim_val
+
+def compute_psnr(img1, img2):
+    mse = np.mean((img1 - img2) ** 2)
+    if mse == 0:
+        return float('inf')
+    return 20 * math.log10(1.0 / math.sqrt(mse))
