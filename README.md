@@ -20,12 +20,15 @@ pip install -r requirements.txt
 
 ✏️ requirements.txt (include this file)
 
+streamlit
 torch
 torchvision
 numpy
-matplotlib
 Pillow
+matplotlib
 scikit-image
+lpips
+
 
 🚀 Execution Steps
 
@@ -70,6 +73,10 @@ PSNR
 SSIM
 
 ~0.6537
+
+🈸Deployment
+
+Streamlit - streamlit run app.py
 
 📌 Notes
 
